@@ -157,11 +157,18 @@ class HBNBCommand(cmd.Cmd):
         count = 0
         if len(arg) == 0:
             count = len(obj_dict)
+            print(count)
         elif arg not in HBNBCommand.supported_classes:
-            print("** class doesn't exist **")
-        else:
-            count = len([obj for obj in obj_dict if obj.startswith(arg + ".")])
-        print(count)
+            objl = []
+            for obj in obj_dict.values():
+                if len(arg_list) > 0 and arg_list[0] == obj.__class__.__name__:
+                    objl.append(obj.__str__())
+                elif len(arg_list) == 0:
+                    objl.append(obj.__str__())
+            print(len(objl))
+        # else:
+        #     count = len([obj for obj in obj_dict if obj.startswith(arg + ".")])
+        # print(count)
 
     def do_update(self, arg):
         """Usage: update <class> <id> <attribute name> "<attribute value>"
