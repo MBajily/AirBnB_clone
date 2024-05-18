@@ -135,10 +135,16 @@ class HBNBCommand(cmd.Cmd):
         If no classis specified, all instances of all classes will be displayed.
         """
         obj_dict = storage.all()
+        arg_list = parse_arguments(arg)
         if len(arg) == 0:
             print([str(obj_dict[obj]) for obj in obj_dict])
         elif arg not in HBNBCommand.supported_classes:
-            print("** class doesn't exist **")
+            objl = []
+            for obj in obj_dict.values():
+                if len(arg_list) > 0 and arg_list[0] == obj.__class__.__name__:
+                    objl.append(obj.__str__())
+                elif len(arg_list) == 0:
+                    objl.append(obj.__str__())
         else:
             print([str(obj_dict[obj]) for obj in obj_dict if obj.startswith(arg + ".")])
 
