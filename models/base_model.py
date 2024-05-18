@@ -20,11 +20,11 @@ class BaseModel:
         self.created_at = datetime.today()  # Date and time of instance creation
         self.updated_at = datetime.today()  # Date and time of instance update
         if kwargs:
-            for k, v in kwargs.items():
-                if k in ["created_at", "updated_at"]:
-                    setattr(self, k, datetime.strptime(v, tform))  # Convert string to datetime
+            for key, value in kwargs.items():
+                if key in ["created_at", "updated_at"]:
+                    self.__dict__[key] = datetime.strptime(value, tform)  # Convert string to datetime
                 else:
-                    setattr(self, k, v)  # Set attribute dynamically
+                    self.__dict__[key] = value  # Set attribute dynamically
         else:
             models.storage.new(self)  # Add instance to storage
 
