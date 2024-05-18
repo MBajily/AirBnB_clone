@@ -2,9 +2,9 @@
 """Defines unittests for models/base_model.py.
 
 Unittest classes:
-    TestCustomModelInstantiation
-    TestCustomModelSave
-    TestCustomModelToDict
+    TestBaseModelInstantiation
+    TestBaseModelSave
+    TestBaseModelToDict
 """
 import os
 import models
@@ -14,7 +14,7 @@ from datetime import datetime
 from models.base_model import BaseModel
 
 
-class TestCustomModelInstantiation(unittest.TestCase):
+class TestBaseModelInstantiation(unittest.TestCase):
     def test_no_args_instantiates(self):
         self.assertEqual(BaseModel, type(BaseModel()))
 
@@ -54,7 +54,7 @@ class TestCustomModelInstantiation(unittest.TestCase):
         cm.id = "123456"
         cm.created_at = cm.updated_at = dt
         cmstr = cm.__str__()
-        self.assertIn("[CustomModel] (123456)", cmstr)
+        self.assertIn("[BaseModel] (123456)", cmstr)
         self.assertIn("'id': '123456'", cmstr)
         self.assertIn("'created_at': " + dt_repr, cmstr)
         self.assertIn("'updated_at': " + dt_repr, cmstr)
@@ -84,7 +84,7 @@ class TestCustomModelInstantiation(unittest.TestCase):
         self.assertEqual(cm.updated_at, dt)
 
 
-class TestCustomModelSave(unittest.TestCase):
+class TestBaseModelSave(unittest.TestCase):
     def test_one_save(self):
         cm = BaseModel()
         first_updated_at = cm.updated_at
@@ -108,12 +108,12 @@ class TestCustomModelSave(unittest.TestCase):
     def test_save_updates_file(self):
         cm = BaseModel()
         cm.save()
-        cmid = "CustomModel." + cm.id
+        cmid = "BaseModel." + cm.id
         with open("file.json", "r") as f:
             self.assertIn(cmid, f.read())
 
 
-class TestCustomModelToDict(unittest.TestCase):
+class TestBaseModelToDict(unittest.TestCase):
     def test_to_dict_type(self):
         cm = BaseModel()
         self.assertTrue(dict, type(cm.to_dict()))
