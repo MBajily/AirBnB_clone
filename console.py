@@ -12,6 +12,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 def parse_arguments(arg):
     curly_braces = re.search(r"\{(.*?)\}", arg)
     brackets = re.search(r"\[(.*?)\]", arg)
@@ -195,6 +196,7 @@ class HBNBCommand(cmd.Cmd):
             instance = obj_dict[key]
             setattr(instance, arg_list[2], arg_list[3].strip('"'))
             instance.save()
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
