@@ -154,6 +154,7 @@ class HBNBCommand(cmd.Cmd):
         Retrieve the number of instances of a given class.
         """
         obj_dict = storage.all()
+        arg_list = parse_arguments(arg)
         count = 0
         if len(arg) == 0:
             count = len(obj_dict)
