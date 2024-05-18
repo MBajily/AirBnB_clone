@@ -13,7 +13,7 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-def parse_arguments(arg):
+def parse(arg):
     curly_braces = re.search(r"\{(.*?)\}", arg)
     brackets = re.search(r"\[(.*?)\]", arg)
     if curly_braces is None:
@@ -87,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
         """Usage: create <class>
         Create a new class instance and print its ID.
         """
-        arg_list = parse_arguments(arg)
+        arg_list = parse(arg)
         if len(arg_list) == 0:
             print("** class name missing **")
         elif arg_list[0] not in HBNBCommand.supported_classes:
@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
         """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given ID.
         """
-        arg_list = parse_arguments(arg)
+        arg_list = parse(arg)
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given ID."""
-        arg_list = parse_arguments(arg)
+        arg_list = parse(arg)
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
@@ -133,29 +133,30 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
-        If no classis specified, all instances of all classes will be displayed.
+        If no classis specified, all instances of all classes
+        will be displayed.
         """
-        obj_dict = storage.all()
-        arg_list = parse_arguments(arg)
+        obs = storage.all()
+        arg_list = parse(arg)
         if len(arg) == 0:
-            print([str(obj_dict[obj]) for obj in obj_dict])
+            print([str(obs[obj]) for obj in obs])
         elif arg not in HBNBCommand.supported_classes:
             objl = []
-            for obj in obj_dict.values():
+            for obj in obs.values():
                 if len(arg_list) > 0 and arg_list[0] == obj.__class__.__name__:
                     objl.append(obj.__str__())
                 elif len(arg_list) == 0:
                     objl.append(obj.__str__())
             print(objl)
         else:
-            print([str(obj_dict[obj]) for obj in obj_dict if obj.startswith(arg + ".")])
+            print([str(obs[obj]) for obj in obs if obj.startswith(arg + ".")])
 
     def do_count(self, arg):
         """Usage: count <class> or <class>.count()
         Retrieve the number of instances of a given class.
         """
         obj_dict = storage.all()
-        arg_list = parse_arguments(arg)
+        arg_list = parse(arg)
         count = 0
         if len(arg) == 0:
             count = len(obj_dict)
@@ -169,7 +170,7 @@ class HBNBCommand(cmd.Cmd):
                     objl.append(obj.__str__())
             print(len(objl))
         # else:
-        #     count = len([obj for obj in obj_dict if obj.startswith(arg + ".")])
+        # count = len([obj for obj in obj_dict if obj.startswith(arg + ".")])
         # print(count)
 
     def do_update(self, arg):
@@ -177,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
         or <class>.update(<id>, <attribute name>, <attribute value>)
         Update a class instance of a given ID by modifying its attribute value.
         """
-        arg_list = parse_arguments(arg)
+        arg_list = parse(arg)
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
