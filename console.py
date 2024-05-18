@@ -145,6 +145,7 @@ class HBNBCommand(cmd.Cmd):
                     objl.append(obj.__str__())
                 elif len(arg_list) == 0:
                     objl.append(obj.__str__())
+            print(objl)
         else:
             print([str(obj_dict[obj]) for obj in obj_dict if obj.startswith(arg + ".")])
 
